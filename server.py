@@ -3,11 +3,9 @@ import threading
 import hashlib
 import os
 
-# Configurações do servidor
-HOST = '0.0.0.0'  # Aceita conexões em todas as interfaces
-PORT = 5005  # Porta maior que 1024
+HOST = '0.0.0.0'  
+PORT = 8000
 
-# Função para calcular hash SHA-256
 def calcular_hash(arquivo):
     hasher = hashlib.sha256()
     with open(arquivo, 'rb') as f:
@@ -15,7 +13,6 @@ def calcular_hash(arquivo):
             hasher.update(chunk)
     return hasher.hexdigest()
 
-# Função para lidar com clientes
 def handle_client(conn, addr):
     print(f"Nova conexão de {addr} - Threads ativas: {threading.active_count()}")
     historico = []
@@ -59,15 +56,14 @@ def handle_client(conn, addr):
     conn.close()
 
 
-# Inicia o servidor
 def start_server():
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Cria conexão TCP usando socket
-    server.bind((HOST, PORT)) # Conecta a porta
-    server.listen(5) # FILA!! mas pensando em como isso vai acontecer apesar de ser multi thread, deve ter um limite, né 
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+    server.bind((HOST, PORT))
+    server.listen(5) 
     print(f"Servidor escutando em {HOST}:{PORT}")
     print(f"Threads ativas ao iniciar o servidor: {threading.active_count()}")
     while True:
-        conn, addr = server.accept() # conn = novo socket; addr = endereço IP e porta do cliente. Deveria ter as triplas né, algo assim de TCP...
+        conn, addr = server.accept() 
         print(f"Nova thread a ser adicionada: {threading.active_count()}")
         thread = threading.Thread(target=handle_client, args=(conn, addr))
         thread.start()

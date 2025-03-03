@@ -3,9 +3,8 @@ import hashlib
 import uuid
 
 
-# Configurações do servidor
-HOST = '0.0.0.0'  # Aceita conexões em todas as interfaces
-PORT = 5005  # Porta maior que 1024
+HOST = '0.0.0.0'  
+PORT = 8000  
 
 def calcular_hash(arquivo):
     hasher = hashlib.sha256()
